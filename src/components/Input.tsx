@@ -36,7 +36,7 @@ function Input({
         name={name}
         value={value}
         onChange={onChange}
-        className={` ${ButtonState[state]} bg-white border py-2 px-1.5 focus:ring-indigo-500 focus:border-indigo-500 rounded-lg`}
+        className={` ${ButtonState[state]} bg-white border py-2 px-1.5 focus-within:outline focus-within:outline-primary rounded-lg`}
       />
       {state == "error" && (
         <p className="text-danger text-xs">{error}</p>

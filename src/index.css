@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&display=swap');
 
 @import "tailwindcss";
 
 body {
-  font-family: "Marcellus", serif;
+  font-family: "Commissioner", sans-serif;
   font-weight: 400;
   font-style: normal;
 }

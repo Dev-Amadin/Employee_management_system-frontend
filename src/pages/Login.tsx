@@ -16,9 +16,9 @@ function Login() {
 
   function signIn() {
     console.log("SIGIN_DETAILS:: ", username, " / ", password);
-    if (validateForm()) {
+    // if (validateForm()) {
       navigate("/employees");
-    }
+    // }
   }
 
   function validateForm() {
@@ -36,7 +36,7 @@ function Login() {
     if (password.trim()) {
       errorsCopy.password = "";
     } else {
-      errorsCopy.password = "Last Name is required";
+      errorsCopy.password = "Password is required";
       isFormValid = false;
     }
 
@@ -49,7 +49,7 @@ function Login() {
       <div className="grid grid-cols-2 h-screen">
         <div className="bg-purple-accent/10 p-20">
           <div className="flex flex-col gap-6 justify-center">
-            <h1 className="text-2xl text-slate-900">Welcome Back!</h1>
+            <h1 className="text-2xl font-bold text-slate-900">Welcome Back!</h1>
             <p className="text-md text-pretty text-slate-600">
               Sign in to continue to your account <br /> and manage leave
               requests.
@@ -61,7 +61,7 @@ function Login() {
         </div>
         <div className="grid items-center p-20">
           <div className="flex flex-col gap-4 justify-center">
-            <h1 className="text-2xl text-slate-900">Sign in</h1>
+            <h1 className="text-2xl font-bold text-slate-900">Sign in</h1>
             <p className="text-md text-pretty text-slate-600">
               Welcome back! Please enter your details.
             </p>

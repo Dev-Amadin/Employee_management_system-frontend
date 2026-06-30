@@ -11,9 +11,9 @@ function EmployeeTable() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    allEmployees();
-  }, []);
+  // useEffect(() => {
+  //   allEmployees();
+  // }, []);
 
   function allEmployees() {
     getAllEmployees()
