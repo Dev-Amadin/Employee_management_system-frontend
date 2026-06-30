@@ -18,8 +18,8 @@ interface ButtonProps {
 function Button({ type, text, childern, onClick }: ButtonProps) {
   return (
     <button
-      className={`${ButtonType[type]} flex justify-center 
-  items-center rounded-lg py-1 px-6  cursor-pointer transition-colors duration-300`}
+      className={`${ButtonType[type]} flex justify-center w-full 
+  items-center rounded-lg py-2 px-10  cursor-pointer transition-colors duration-300`}
       onClick={onClick}
     >
       <span>{childern}</span>

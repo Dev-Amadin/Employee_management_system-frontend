@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "./Button";
-import Input from "./input";
 import React, { useEffect, useState } from "react";
 import { createEmployee, getEmployeeById, updateEmployee } from "../services/EmployeeService";
+import Input from "./Input";
 
 function EmployeeForm() {
   const navigate = useNavigate();

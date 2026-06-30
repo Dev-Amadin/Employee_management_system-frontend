@@ -38,10 +38,12 @@ function EmployeeTable() {
 
   function deleteEmployee(id?: string) {
     if (id) {
-      deleteEmployeeById(id).then((response) => {
-        console.log("DELETE:: ", response);
-        allEmployees();
-      }).catch(error =>   console.log("DELETE ERROR:: ", error));
+      deleteEmployeeById(id)
+        .then((response) => {
+          console.log("DELETE:: ", response);
+          allEmployees();
+        })
+        .catch((error) => console.log("DELETE ERROR:: ", error));
     }
   }
 
@@ -50,7 +52,9 @@ function EmployeeTable() {
       <div className="rounded-2xl shadow-xl p-4">
         <div className="flex items-center justify-between  border-b border-slate-200 pb-4">
           <h1 className="font-bold text-2xl">Employees</h1>
-          <Button type="primary" text="Add Employee" onClick={addEmployee} />
+          <div>
+            <Button type="primary" text="Add Employee" onClick={addEmployee} />
+          </div>
         </div>
         <table className="w-full my-12 text-left table-fixed">
           <thead>
