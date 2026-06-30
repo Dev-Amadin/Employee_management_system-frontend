@@ -5,7 +5,7 @@ import  logo  from "../assets/login_svg.svg";
 function Sidebar() {
   return (
     <div className="h-screen shadow-md overflow-auto">
-      <div className="flex items-center justify-between p-2 border-b border-slate-300">
+      <div className="flex items-center justify-between p-2 shadow-md border-slate-300">
         <div className="flex items-center gap-1">
           <div className="bg-purple-accent/10 text-primary text-xs flex items-center justify-center rounded-full p-2">
             <img src={logo} className="h-6 w-6"  />

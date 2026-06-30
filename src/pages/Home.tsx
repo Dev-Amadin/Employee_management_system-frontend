@@ -1,6 +1,7 @@
 
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 
 function Home() {
   return (
@@ -10,9 +11,11 @@ function Home() {
                 <div className="col-span-2 ">
                   <Sidebar/>
                 </div>
-                <div className="bg-purple-200 col-span-10">
+                <div className="col-span-10">
                     <div className="flex flex-col ">
-                        <div className="bg-amber-200 h-12"></div>
+                        <div className="h-14">
+                          <Navbar/>
+                        </div>
                         <div className="bg-green-300"> <Outlet/></div>
                     </div>
                 </div>
