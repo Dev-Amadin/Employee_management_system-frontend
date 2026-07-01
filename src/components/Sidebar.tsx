@@ -1,11 +1,16 @@
 import { NavLink } from "react-router-dom";
 import { SiderbarLinks } from "../utils/Appdata";
 import  logo  from "../assets/login_svg.svg";
+import { useThemeContext } from "../context/ThemeContextProvider";
 
 function Sidebar() {
+
+    const {setIsMenuActive} = useThemeContext();
+
+
   return (
     <div className="h-screen shadow-md overflow-auto">
-      <div className="flex items-center justify-between p-2 shadow-md border-slate-300">
+      <div className="flex items-center justify-between p-2">
         <div className="flex items-center gap-1">
           <div className="bg-purple-accent/10 text-primary text-xs flex items-center justify-center rounded-full p-2">
             <img src={logo} className="h-6 w-6"  />
@@ -14,7 +19,8 @@ function Sidebar() {
             Brand
           </h1>
         </div>
-        <div className="rounded-full cursor-pointer hover:bg-purple-accent/10 transition-colors duration-300 p-2">
+        <div className="rounded-full cursor-pointer hover:bg-purple-accent/10 transition-colors duration-300 p-2"
+        onClick={() => setIsMenuActive((prev) => !prev)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -31,7 +37,7 @@ function Sidebar() {
           </svg>
         </div>
       </div>
-      <div className="mt-6 mx-4">
+      <div className="mt-4 mx-4">
         {SiderbarLinks.map((links, index) => (
           <div key={index} className="mb-2">
             <h2 className="text-md text-primary uppercase mb-1">

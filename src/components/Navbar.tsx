@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useThemeContext } from "../context/ThemeContextProvider";
 
 function Navbar() {
   const navigate = useNavigate();
+   const {setIsMenuActive} = useThemeContext();
 
   function signOut() {
     navigate("/");
@@ -12,6 +14,7 @@ function Navbar() {
       <div
         className="hover:bg-purple-accent/10 cursor-pointer text-primary flex items-center justify-center rounded-full p-2
       transition-all duration-300"
+      onClick={() => setIsMenuActive((prev)=>!prev)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
