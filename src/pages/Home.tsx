@@ -18,7 +18,7 @@ function Home() {
             <div className="h-14">
               <Navbar />
             </div>
-            <div className="bg-green-300">
+            <div>
               <Outlet />
             </div>
           </div>
