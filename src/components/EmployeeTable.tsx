@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import {
   deleteEmployeeById,
   getAllEmployees,
-  type Page,
   type Employee,
 } from "../services/EmployeeService";
-// import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 import { DataTable } from "./DataTable";
 import { Button } from "@/components/ui/button";
@@ -17,10 +15,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontalIcon } from "@/utils/icons";
 import type { ColumnDef, PaginationState } from "@tanstack/react-table";
+import PageHeader from "./PageHeader";
+import Btn from "./Btn";
 
-function EmployeeTable() {
+export default function EmployeeTable() {
   const [employees, setEmployees] = useState<Employee[]>([]);
-  const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 });
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
   const [totalElements, setTotalElements] = useState(0);
 
   const navigate = useNavigate();
@@ -63,13 +66,25 @@ function EmployeeTable() {
   }
 
   return (
-    <div className="m-10">
-      <DataTable columns={columns} data={employees} pagination={pagination} totalElements={totalElements} onPaginationChange={setPagination}/>
-    </div>
+    <>
+      <PageHeader
+        title="Employees"
+        subheading="List of all employees"
+        className="mb-6"
+        button ={<Btn text="Add Employees" type="primary" />}
+      />
+      <DataTable
+        columns={columns}
+        data={employees}
+        pagination={pagination}
+        totalElements={totalElements}
+        onPaginationChange={setPagination}
+      />
+    </>
   );
 }
 
-export default EmployeeTable;
+
 
 export const columns: ColumnDef<Employee>[] = [
   {
@@ -85,7 +100,7 @@ export const columns: ColumnDef<Employee>[] = [
     header: "Email",
   },
   {
-    header:"Actions",
+    header: "Actions",
     id: "actions",
     cell: ({ row }) => {
       const employee = row.original;
@@ -104,7 +119,7 @@ export const columns: ColumnDef<Employee>[] = [
               </Button>
             }
           />
-          <DropdownMenuContent align="end" className="bg-slate-50">
+          <DropdownMenuContent align="end" className="bg-slate-50 ring-0">
             <DropdownMenuItem
               className="hover:bg-purple-accent/10 cursor-pointer"
               onClick={() => {
@@ -113,7 +128,7 @@ export const columns: ColumnDef<Employee>[] = [
             >
               Edit
             </DropdownMenuItem>
-            <DropdownMenuItem className="hover:bg-purple-accent/10 cursor-pointer">
+            <DropdownMenuItem className="hover:bg-purple-accent/10 cursor-pointer text-danger">
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>

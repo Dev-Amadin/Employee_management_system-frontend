@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import loginImg from "../assets/login_svg.svg";
-import Button from "../components/Button";
+import Button from "../components/Btn";
 import Input from "../components/Input";
 import { useState } from "react";
 import { toast } from "sonner";

@@ -18,7 +18,7 @@ function Home() {
             <div className="h-14">
               <Navbar />
             </div>
-            <div>
+            <div className="m-10">
               <Outlet />
             </div>
           </div>

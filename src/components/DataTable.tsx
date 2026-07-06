@@ -2,7 +2,6 @@ import {
   type ColumnDef,
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   type OnChangeFn,
   type PaginationState,
   useReactTable,
@@ -132,7 +131,7 @@ export function DataTable<TData, TValue>({
                 <SelectTrigger className="w-20" id="select-rows-per-page">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent align="start" className="bg-slate-50">
+                <SelectContent align="start" className="bg-slate-50 ring-0">
                   <SelectGroup>
                     {PageSizeOptions.map((size, index) => (
                       <SelectItem

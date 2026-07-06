@@ -10,7 +10,7 @@ function Sidebar() {
   const normalLink =
     "flex items-center gap-2 text-slate-900 text-sm capitalize p-2 hover:bg-purple-accent/10 transition-colors duration-300 rounded-md mb-2";
   const activeLink =
-    "flex items-center gap-2 text-white bg-primary text-sm capitalize p-2 rounded-md mb-2";
+    "flex items-center gap-2 text-white bg-primary text-sm capitalize p-2 rounded-md mb-2 pointer-events-none";
 
   return (
     <div className="h-screen shadow-md overflow-hidden">

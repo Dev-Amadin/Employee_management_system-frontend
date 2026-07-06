@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "./Button";
+import Button from "./Btn";
 import React, { useEffect, useState } from "react";
 import { createEmployee, getEmployeeById, updateEmployee } from "../services/EmployeeService";
 import Input from "./Input";
