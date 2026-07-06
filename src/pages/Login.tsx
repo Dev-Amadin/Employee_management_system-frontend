@@ -3,6 +3,7 @@ import loginImg from "../assets/login_svg.svg";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { useState } from "react";
+import { toast } from "sonner";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -17,6 +18,7 @@ function Login() {
   function signIn() {
     console.log("SIGIN_DETAILS:: ", username, " / ", password);
     // if (validateForm()) {
+    toast("Welcome user", {position:"top-center", style:{background:'#05df72'}});
       navigate("/employees");
     // }
   }

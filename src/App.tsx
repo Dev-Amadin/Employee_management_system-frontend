@@ -5,10 +5,12 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import EmployeeTable from "./components/EmployeeTable";
 import EmployeeForm from "./components/EmployeeForm";
+import { Toaster } from "./components/ui/sonner";
 
 function App() {
   return (
     <>
+    <Toaster/>
       <BrowserRouter>
         <Routes>
           {/* {Public} */}
