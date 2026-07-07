@@ -11,7 +11,7 @@ function Navbar() {
   }
 
   return (
-    <div className="flex items-center justify-between p-2 shadow-md">
+    <div className="flex items-center justify-between p-2 shadow-md bg-light">
       <div
         className="hover:bg-purple-accent/10 cursor-pointer text-primary flex items-center justify-center rounded-full p-2
       transition-all duration-300"

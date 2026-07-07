@@ -25,7 +25,7 @@ function Input({
   onChange,
 }: InputProps) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1">
       <label htmlFor={name} className="capitalize text-slate-900 text-sm">
         {labelName}
       </label>
@@ -36,7 +36,7 @@ function Input({
         name={name}
         value={value}
         onChange={onChange}
-        className={` ${ButtonState[state]} bg-white border py-2 px-1.5 focus-within:outline focus-within:outline-primary text-xs rounded-lg`}
+        className={` ${ButtonState[state]} bg-white border py-2 px-1.5 focus-within:outline focus-within:outline-primary text-xs rounded-md`}
       />
       {state == "error" && (
         <p className="text-danger text-xs">{error}</p>

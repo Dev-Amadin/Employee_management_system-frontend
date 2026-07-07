@@ -13,7 +13,7 @@ function Sidebar() {
     "flex items-center gap-2 text-white bg-primary text-sm capitalize p-2 rounded-md mb-2 pointer-events-none";
 
   return (
-    <div className="h-screen shadow-md overflow-hidden">
+    <div className="h-screen shadow-md bg-light overflow-hidden">
       <div className="flex items-center justify-between p-2 text-primary">
         <div className="flex items-center gap-1">
           <div className="bg-purple-accent/10 text-xs flex items-center justify-center rounded-full p-2">

@@ -8,7 +8,7 @@ function Home() {
 
   return (
     <div className="h-screen bg-slate-50">
-      <div className="flex h-screen">
+      <div className="flex">
         <div className={`${isMenuActive ? "w-64" : "w-0"} transition-all duration-300 `}>
           <Sidebar />
         </div>
@@ -18,7 +18,7 @@ function Home() {
             <div className="h-14">
               <Navbar />
             </div>
-            <div className="m-10">
+            <div className="mx-10 my-4">
               <Outlet />
             </div>
           </div>
