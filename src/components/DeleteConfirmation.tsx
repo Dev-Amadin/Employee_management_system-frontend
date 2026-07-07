@@ -25,7 +25,7 @@ export default function DeleteConfirmation({
             )}
           </p>
         </div>
-        <div className="flex flex-row-reverse items-baseline">
+        <div className="flex flex-row-reverse items-baseline mt-4">
           <div className="flex gap-2 mt-2">
             <Btn type="secondary" text="Cancel" onClick={onCancel} />
             <Btn

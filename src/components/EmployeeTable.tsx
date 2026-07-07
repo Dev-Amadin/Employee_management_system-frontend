@@ -32,20 +32,24 @@ export default function EmployeeTable() {
   const [employee, setEmployee] = useState<Employee>();
   const [isEdit, setIsEdit] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     allEmployees();
   }, [pagination]);
 
   function allEmployees() {
+    setIsLoading(true);
     getAllEmployees(pagination.pageIndex, pagination.pageSize)
       .then((response) => {
         console.log("GET_ALL_RESPONSE:: ", response);
         setEmployees(response.data.content);
         setTotalElements(response.data.page.totalElements);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log("ERROR:: ", error);
+        setIsLoading(false);
       });
   }
 
@@ -111,6 +115,7 @@ export default function EmployeeTable() {
         icon={<GroupIcon size="size-6" />}
       />
       <DataTable
+        isLoading={isLoading}
         columns={columns}
         data={employees}
         pagination={pagination}
