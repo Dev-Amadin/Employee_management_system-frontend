@@ -18,7 +18,7 @@ export function getEmployeeById(id: string) {
 }
 
 export function updateEmployee(employeeId: string, employee: Employee) {
-  return axios.put<Employee>(`${EMPLOYEE_BASE_URL}/${employeeId}`, employee);
+  return axios.patch<Employee>(`${EMPLOYEE_BASE_URL}/${employeeId}`, employee);
 }
 
 export function deleteEmployeeById(id: string) {

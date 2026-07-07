@@ -18,7 +18,10 @@ function Login() {
   function signIn() {
     console.log("SIGIN_DETAILS:: ", username, " / ", password);
     // if (validateForm()) {
-    toast("Welcome user", {position:"top-center", style:{background:'#05df72'}});
+    toast("Signed In", {
+      description: "You have successfully signed in.",
+      position: "top-right",
+    });
       navigate("/employees");
     // }
   }

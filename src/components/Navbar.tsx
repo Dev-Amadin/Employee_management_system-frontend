@@ -1,12 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { useThemeContext } from "../context/ThemeContextProvider";
 import { BellIcon, ExitLeftIcon, HamburgerIcon } from "../utils/icons";
+import { toast } from "sonner";
 
 function Navbar() {
   const navigate = useNavigate();
   const { setIsMenuActive } = useThemeContext();
 
   function signOut() {
+    toast("Logged Out", {
+      description: "You have successfully Logged out.",
+      position: "top-right",
+    });
     navigate("/");
   }
 

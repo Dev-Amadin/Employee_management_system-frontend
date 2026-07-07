@@ -1,4 +1,3 @@
-
 import Button from "./Btn";
 import React, { useEffect, useState } from "react";
 import {
@@ -7,6 +6,7 @@ import {
   type Employee,
 } from "../services/EmployeeService";
 import Input from "./Input";
+import { toast } from "sonner";
 
 type EmployeeFormProps = {
   onCloseModal: () => void;
@@ -24,7 +24,7 @@ function EmployeeForm({
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-    const [id, setId] = useState("");
+  const [id, setId] = useState("");
 
   const [errors, setErrors] = useState({
     firstName: "",
@@ -33,13 +33,11 @@ function EmployeeForm({
   });
 
   useEffect(() => {
-    console.log("isEdit:: ", isEdit);
-    console.log("EDIT_BODY:: ", employee);
     if (isEdit && employee) {
       setFirstName(employee.firstName);
       setLastName(employee.lastName);
       setEmail(employee.email);
-      setId(employee.id? employee.id : '');
+      setId(employee.id ? employee.id : "");
     }
   }, [isEdit]);
 
@@ -52,19 +50,43 @@ function EmployeeForm({
 
       if (isEdit) {
         updateEmployee(id, data)
-          .then((response) => {
-            console.log("RESPONSE:: ", response.data);
-            onCloseModal();
+          .then(() => {
+             onCloseModal();
+            toaster(
+              true,
+              "Employee Updated",
+              `You have successfully updated employee ${data.firstName} ${data.lastName}.`,
+            );
+           
+             onSuccess();
           })
-          .catch((error) => console.log("UPDATE EMPLOYEE ERROR:: ", error));
+          .catch((error) => {
+            console.log("UPDATE EMPLOYEE ERROR:: ", error);
+            toaster(
+              false,
+              "Error Occured",
+              `An error occured while trying to update employee ${data.firstName} ${data.lastName}`,
+            );
+          });
       } else {
         createEmployee(data)
-          .then((response) => {
-            console.log("RESPONSE:: ", response.data);
+          .then(() => {
             onCloseModal();
+            toaster(
+              true,
+              "Employee Created",
+              `You have successfully created ${data.firstName} ${data.lastName} as an employee.`,
+            );
             onSuccess();
           })
-          .catch((error) => console.log("CREATE EMPLOYEE ERROR:: ", error));
+          .catch((error) => {
+            console.log("CREATE EMPLOYEE ERROR:: ", error);
+            toaster(
+              false,
+              "Error Occured",
+              `An error occured while trying to create ${data.firstName} ${data.lastName} as an employee.`,
+            );
+          });
       }
     }
   }
@@ -102,6 +124,26 @@ function EmployeeForm({
   function cancel(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     onCloseModal();
+  }
+
+  function toaster(isSuccess: boolean, title: string, description: string) {
+    if (isSuccess) {
+      return toast.success(title, {
+        description: description,
+        position: "top-right",
+        classNames: {
+          success: "!bg-green-300",
+        },
+      });
+    } else {
+      return toast.error(title, {
+        description: description,
+        position: "top-right",
+        classNames: {
+          error: "!bg-rose-400",
+        },
+      });
+    }
   }
 
   return (
