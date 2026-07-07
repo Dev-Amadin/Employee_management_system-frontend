@@ -18,6 +18,8 @@ import PageHeader from "./PageHeader";
 import Btn from "./Btn";
 import Modal from "./Modal";
 import EmployeeForm from "./EmployeeForm";
+import { toaster } from "@/utils/commons";
+import DeleteConfirmation from "./DeleteConfirmation";
 
 export default function EmployeeTable() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -29,6 +31,7 @@ export default function EmployeeTable() {
   const [totalElements, setTotalElements] = useState(0);
   const [employee, setEmployee] = useState<Employee>();
   const [isEdit, setIsEdit] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   useEffect(() => {
     allEmployees();
@@ -58,13 +61,30 @@ export default function EmployeeTable() {
   }
 
   function handleDelete(employee: Employee) {
+    setOpenDeleteModal(true);
+    setEmployee(employee);
+  }
+
+  function deleteEmployee(employee: Employee) {
     if (employee.id) {
       deleteEmployeeById(employee.id)
         .then((response) => {
           console.log("DELETE:: ", response);
+          toaster(
+            true,
+            "Employee Deleted",
+            `You have successfully deleted employee ${employee.firstName} ${employee.lastName}.`,
+          );
           allEmployees();
         })
-        .catch((error) => console.log("DELETE ERROR:: ", error));
+        .catch((error) => {
+          console.log("DELETE ERROR:: ", error);
+          toaster(
+            false,
+            "Error Occured",
+            `An error occured while trying to update employee ${employee.firstName} ${employee.lastName}`,
+          );
+        });
     }
   }
 
@@ -115,6 +135,25 @@ export default function EmployeeTable() {
               setOpenModal(false);
             }}
             onSuccess={() => allEmployees()}
+          />
+        }
+        footer={false}
+      />
+      <Modal
+        size="sm:max-w-md"
+        title="Delete Employee"
+        open={openDeleteModal}
+        setOpen={setOpenDeleteModal}
+        children={
+          <DeleteConfirmation
+            employee={employee}
+            onCancel={() => setOpenDeleteModal(false)}
+            onDelete={(employee) => {
+              if (employee) {
+                deleteEmployee(employee);
+                setOpenDeleteModal(false);
+              }
+            }}
           />
         }
         footer={false}
@@ -183,4 +222,3 @@ export const getColumns = ({
     },
   },
 ];
-

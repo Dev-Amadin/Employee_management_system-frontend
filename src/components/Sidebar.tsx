@@ -52,7 +52,7 @@ function Sidebar() {
         </div>
 
         <div className="flex items-center mt-20 p-2">
-          <div className="flex items-center justify-center size-10 border border-primary rounded-full">
+          <div className="flex items-center justify-center size-12 shadow-md text-primary rounded-full">
             <UserIcon/>
           </div>
           <div className="p-2">

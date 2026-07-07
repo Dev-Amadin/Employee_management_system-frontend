@@ -14,7 +14,7 @@ type size = "sm:max-w-xs" | "sm:max-w-sm" | "sm:max-w-md" | "sm:max-w-lg" | "sm:
 
 type ModalProps = {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   open: boolean;
   footer: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;

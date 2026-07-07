@@ -18,7 +18,7 @@ export default function PageHeader({
   return (
     <div className={`flex items-center justify-between w-full ${className}`}>
       <div className="flex items-center gap-2">
-        <div className="flex items-center justify-center p-4 rounded-full shadow-md bg-white text-primary">
+        <div className="flex items-center justify-center p-4 rounded-full shadow-md bg-white text-primary border border-primary">
           {icon}
         </div>
         <div>
