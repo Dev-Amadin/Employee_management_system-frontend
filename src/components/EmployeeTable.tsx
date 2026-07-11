@@ -2,30 +2,25 @@ import { useEffect, useState } from "react";
 import {
   deleteEmployeeById,
   getAllEmployees,
+  getColumns,
   type Employee,
 } from "../services/EmployeeService";
 import { DataTable } from "./DataTable";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { GroupIcon, MoreHorizontalIcon } from "@/utils/icons";
-import type { ColumnDef, PaginationState } from "@tanstack/react-table";
+import { GroupIcon } from "@/utils/icons";
+import type { PaginationState } from "@tanstack/react-table";
 import PageHeader from "./PageHeader";
 import Btn from "./Btn";
 import Modal from "./Modal";
 import EmployeeForm from "./EmployeeForm";
 import { toaster } from "@/utils/commons";
 import DeleteConfirmation from "./DeleteConfirmation";
+import { PAGEABLE } from "@/utils/appdata";
 
 export default function EmployeeTable() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
+    pageIndex: PAGEABLE.page,
+    pageSize: PAGEABLE.size,
   });
   const [openModal, setOpenModal] = useState(false);
   const [totalElements, setTotalElements] = useState(0);
@@ -33,6 +28,8 @@ export default function EmployeeTable() {
   const [isEdit, setIsEdit] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [deleteId, setDeleteId] = useState("");
+  const [deleteSubject, setDeleteSubject] = useState("");
 
   useEffect(() => {
     allEmployees();
@@ -66,18 +63,21 @@ export default function EmployeeTable() {
 
   function handleDelete(employee: Employee) {
     setOpenDeleteModal(true);
-    setEmployee(employee);
+    if (employee.id) {
+      setDeleteId(employee.id);
+      setDeleteSubject(`${employee.firstName} ${employee.lastName}`);
+    }
   }
 
-  function deleteEmployee(employee: Employee) {
-    if (employee.id) {
-      deleteEmployeeById(employee.id)
+  function deleteEmployee(id: string, subject: string) {
+    if (id) {
+      deleteEmployeeById(id)
         .then((response) => {
           console.log("DELETE:: ", response);
           toaster(
             true,
             "Employee Deleted",
-            `You have successfully deleted employee ${employee.firstName} ${employee.lastName}.`,
+            `You have successfully deleted employee ${subject}.`,
           );
           allEmployees();
         })
@@ -86,7 +86,7 @@ export default function EmployeeTable() {
           toaster(
             false,
             "Error Occured",
-            `An error occured while trying to update employee ${employee.firstName} ${employee.lastName}`,
+            `An error occured while trying to delete employee ${subject}`,
           );
         });
     }
@@ -151,13 +151,12 @@ export default function EmployeeTable() {
         setOpen={setOpenDeleteModal}
         children={
           <DeleteConfirmation
-            employee={employee}
+            deleteId={deleteId}
+            subject={deleteSubject}
             onCancel={() => setOpenDeleteModal(false)}
-            onDelete={(employee) => {
-              if (employee) {
-                deleteEmployee(employee);
-                setOpenDeleteModal(false);
-              }
+            onDelete={(id, subject) => {
+              deleteEmployee(id, subject);
+              setOpenDeleteModal(false);
             }}
           />
         }
@@ -166,64 +165,3 @@ export default function EmployeeTable() {
     </>
   );
 }
-
-type EmployeeColumnsProps = {
-  onEdit: (employee: Employee) => void;
-  onDelete: (employee: Employee) => void;
-};
-
-export const getColumns = ({
-  onEdit,
-  onDelete,
-}: EmployeeColumnsProps): ColumnDef<Employee>[] => [
-  {
-    accessorKey: "firstName",
-    header: "First Name",
-  },
-  {
-    accessorKey: "lastName",
-    header: "Last Name",
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-  },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => {
-      const employee = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            render={
-              <Button
-                variant="ghost"
-                size="icon"
-                className="size-8 hover:bg-purple-accent/20 cursor-pointer"
-              >
-                <MoreHorizontalIcon />
-              </Button>
-            }
-          />
-          <DropdownMenuContent align="end" className="bg-light ring-0">
-            <DropdownMenuItem
-              className="hover:bg-purple-accent/10 cursor-pointer"
-              onClick={() => onEdit(employee)}
-            >
-              Edit
-            </DropdownMenuItem>
-
-            <DropdownMenuItem
-              className="hover:bg-purple-accent/10 cursor-pointer text-danger"
-              onClick={() => onDelete(employee)}
-            >
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];

@@ -19,7 +19,7 @@ export default function Btn({ type, text, childern, onClick }: ButtonProps) {
   return (
     <button
       className={`${ButtonType[type]} flex justify-center w-full text-sm 
-  items-center rounded-4xl py-2 px-10  cursor-pointer transition-colors duration-300`}
+  items-center rounded-4xl py-2 px-10  cursor-pointer transition-colors duration-300 `}
       onClick={onClick}
     >
       <span>{childern}</span>

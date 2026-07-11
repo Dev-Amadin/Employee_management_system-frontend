@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import logo from "../assets/login_svg.svg";
 import { useThemeContext } from "../context/ThemeContextProvider";
 import { CancelIcon, UserIcon } from "../utils/icons";
-import { SiderbarLinks } from "@/utils/appdata";
+import { SIDERBAR_LINKS } from "@/utils/appdata";
 
 function Sidebar() {
   const { setIsMenuActive } = useThemeContext();
@@ -30,7 +30,7 @@ function Sidebar() {
       </div>
       <div className="flex flex-col gap-4 justify-between mx-4">
         <div className="mt-4 ">
-          {SiderbarLinks.map((links, index) => (
+          {SIDERBAR_LINKS.map((links, index) => (
             <div key={index} className="mb-2">
               <h2 className="text-md text-primary uppercase mb-1">
                 {links.title}

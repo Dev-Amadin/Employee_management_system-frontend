@@ -9,7 +9,7 @@ import {
   VibratingBellIcon,
 } from "./icons";
 
-export const SiderbarLinks = [
+export const SIDERBAR_LINKS = [
   {
     title: "Home",
     links: [
@@ -66,3 +66,43 @@ export const SiderbarLinks = [
     ],
   },
 ];
+
+export const DEPARTMENTS = [
+  {
+    name: "IT",
+    value: "IT",
+  },
+  {
+    name: "Engineering",
+    value: "ENGR",
+  },
+  {
+    name: "Administrative",
+    value: "ADMIN",
+  },
+  {
+    name: "Finance",
+    value: "FIN",
+  },
+];
+
+export const DEPARTMENT_OPTIONS = DEPARTMENTS.map((department) => ({
+  label: department.name,
+  value: department.value,
+}));
+
+export const ROLES = ["ADMIN", "STAFF", "MANAGER"];
+
+export const PAGEABLE = {
+  page: 0,
+  size: 5,
+};
+
+export const BASE_URL = "http://localhost:8080/api/dev/ems";
+
+export type Page = {
+  size: number;
+  number: number;
+  totalElements?: number;
+  totalPages?: number;
+};

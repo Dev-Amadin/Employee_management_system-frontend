@@ -1,6 +1,6 @@
 import type React from "react";
 
-const ButtonState = {
+const InputState = {
   regular: "border-slate-300",
   error: "border-danger",
 };
@@ -11,7 +11,7 @@ interface InputProps {
   labelName: string;
   value: string;
   error?: string;
-  state: keyof typeof ButtonState;
+  state: keyof typeof InputState;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -36,7 +36,7 @@ function Input({
         name={name}
         value={value}
         onChange={onChange}
-        className={` ${ButtonState[state]} bg-white border py-2 px-1.5 focus-within:outline focus-within:outline-primary text-xs rounded-md`}
+        className={` ${InputState[state]} bg-white border py-2 px-1.5 focus-within:outline focus-within:outline-primary text-xs rounded-md`}
       />
       {state == "error" && (
         <p className="text-danger text-xs">{error}</p>

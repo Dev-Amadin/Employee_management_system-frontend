@@ -7,6 +7,8 @@ import {
 } from "../services/EmployeeService";
 import Input from "./Input";
 import { toaster } from "@/utils/commons";
+import CustomSelect from "./CustomSelect";
+import { DEPARTMENT_OPTIONS } from "@/utils/appdata";
 
 type EmployeeFormProps = {
   onCloseModal: () => void;
@@ -24,12 +26,14 @@ function EmployeeForm({
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [department, setDepartment] = useState("");
   const [id, setId] = useState("");
 
   const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
     email: "",
+    department:""
   });
 
   useEffect(() => {
@@ -45,20 +49,20 @@ function EmployeeForm({
     event.preventDefault();
 
     if (validateForm()) {
-      const data = { firstName, lastName, email };
-      console.log("data::: ", employee);
+      const data = { firstName, lastName, email, department };
+      console.log("data::: ", data);
 
       if (isEdit) {
         updateEmployee(id, data)
           .then(() => {
-             onCloseModal();
+            onCloseModal();
             toaster(
               true,
               "Employee Updated",
               `You have successfully updated employee ${data.firstName} ${data.lastName}.`,
             );
-           
-             onSuccess();
+
+            onSuccess();
           })
           .catch((error) => {
             console.log("UPDATE EMPLOYEE ERROR:: ", error);
@@ -117,6 +121,13 @@ function EmployeeForm({
       isFormValid = false;
     }
 
+     if (department.trim()) {
+      errorsCopy.department = "";
+    } else {
+      errorsCopy.department = "Department is required";
+      isFormValid = false;
+    }
+
     setErrors(errorsCopy);
     return isFormValid;
   }
@@ -125,8 +136,6 @@ function EmployeeForm({
     event.preventDefault();
     onCloseModal();
   }
-
- 
 
   return (
     <form>
@@ -157,6 +166,18 @@ function EmployeeForm({
           state={errors.email ? "error" : "regular"}
           error={errors.email}
           onChange={(event) => setEmail(event.target.value)}
+        />
+        <CustomSelect
+          isDisable={false}
+          label="Department"
+          name="department"
+          value={department}
+          onChange={(value)=> {
+            console.log("depart:: ",value)
+            setDepartment(value)
+          }}
+          options={DEPARTMENT_OPTIONS}
+          errors={errors.department}
         />
       </div>
       <div className="flex flex-row-reverse mt-6 border-t p-2">

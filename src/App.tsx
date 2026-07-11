@@ -5,11 +5,12 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import EmployeeTable from "./components/EmployeeTable";
 import { Toaster } from "./components/ui/sonner";
+import Users from "./components/users";
 
 function App() {
   return (
     <>
-    <Toaster/>
+      <Toaster />
       <BrowserRouter>
         <Routes>
           {/* {Public} */}
@@ -20,6 +21,7 @@ function App() {
           {/* {main} */}
           <Route element={<Home />}>
             <Route path="/employees" element={<EmployeeTable />}></Route>
+            <Route path="/users" element={<Users />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
