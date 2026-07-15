@@ -3,6 +3,8 @@ import PageHeader from "./PageHeader";
 import Btn from "./Btn";
 import { useEffect, useState } from "react";
 import {
+  activateUser,
+  deactivateUser,
   deleteUserById,
   getAllusers,
   getUserColumns,
@@ -14,6 +16,8 @@ import { DataTable } from "./DataTable";
 import { toaster } from "@/utils/commons";
 import Modal from "./Modal";
 import DeleteConfirmation from "./DeleteConfirmation";
+import UserForm from "./UserForm";
+import StatusChangeConfirmation from "./statusChangeConfirmation";
 
 export default function Users() {
   const [users, setUsers] = useState<User[]>([]);
@@ -24,7 +28,9 @@ export default function Users() {
   });
   const [totalElements, setTotalElements] = useState(0);
   const [user, setUser] = useState<User>();
+  const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openStatusModal, setOpenStatusModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [deleteSubject, setDeleteSubject] = useState("");
@@ -48,9 +54,14 @@ export default function Users() {
       });
   }
 
+  function handleAdd() {
+    setIsEdit(false);
+    setOpenModal(true);
+  }
+
   function handleEdit(user: User) {
     setIsEdit(true);
-    // setOpenModal(true);
+    setOpenModal(true);
     setUser(user);
   }
 
@@ -62,7 +73,14 @@ export default function Users() {
     setOpenDeleteModal(true);
   }
 
-  function deleteUser(id:string, subject:string) {
+  function handleStatusChange(user: User) {
+    setUser(user);
+    setOpenStatusModal(true);
+  }
+
+
+
+  function deleteUser(id: string, subject: string) {
     if (id) {
       deleteUserById(id)
         .then((response) => {
@@ -85,9 +103,56 @@ export default function Users() {
     }
   }
 
+  function handleActiveUser(id: string, subject: string) {
+    if (id) {
+      activateUser(id)
+        .then((response) => {
+          console.log("DELETE:: ", response);
+          toaster(
+            true,
+            "User Activated",
+            `You have successfully activated user ${subject}.`,
+          );
+          allUsers();
+        })
+        .catch((error) => {
+          console.log("DELETE ERROR:: ", error);
+          toaster(
+            false,
+            "Error Occured",
+            `An error occured while trying to activated user ${subject}.`,
+          );
+        });
+    }
+  }
+
+  function handleDectiveUser(id: string, subject: string) {
+    if (id) {
+      deactivateUser(id)
+        .then((response) => {
+          console.log("DELETE:: ", response);
+          toaster(
+            true,
+            "User deactivated",
+            `You have successfully deactivated user ${subject}.`,
+          );
+          allUsers();
+        })
+        .catch((error) => {
+          console.log("DELETE ERROR:: ", error);
+          toaster(
+            false,
+            "Error Occured",
+            `An error occured while trying to deactivated user ${subject}.`,
+          );
+        });
+    }
+  }
+
   const columns = getUserColumns({
     onEdit: handleEdit,
     onDelete: handleDelete,
+    onStatusChange: handleStatusChange,
   });
 
   return (
@@ -100,9 +165,9 @@ export default function Users() {
           <Btn
             text="Add Users"
             type="primary"
-            // onClick={() => {
-            //   handleAdd();
-            // }}
+            onClick={() => {
+              handleAdd();
+            }}
           />
         }
         icon={<AddUserIcon size="size-6" />}
@@ -118,6 +183,25 @@ export default function Users() {
       />
 
       <Modal
+        size="sm:max-w-2xl"
+        title={isEdit ? "Update User" : "Create User"}
+        subtitle={`Fill all the necessary fields for employee ${isEdit ? "update." : "creation."}`}
+        open={openModal}
+        setOpen={setOpenModal}
+        children={
+          <UserForm
+            isEdit={isEdit}
+            user={user}
+            onCloseModal={() => {
+              setOpenModal(false);
+            }}
+            onSuccess={() => allUsers()}
+          />
+        }
+        footer={false}
+      />
+
+      <Modal
         size="sm:max-w-md"
         title="Delete User"
         open={openDeleteModal}
@@ -127,15 +211,34 @@ export default function Users() {
             deleteId={deleteId}
             subject={deleteSubject}
             onCancel={() => setOpenDeleteModal(false)}
-            onDelete={(id,subject) => {
-                deleteUser(id,subject);
-                setOpenDeleteModal(false);
+            onDelete={(id, subject) => {
+              deleteUser(id, subject);
+              setOpenDeleteModal(false);
             }}
           />
         }
         footer={false}
       />
-      
+
+      <Modal
+        size="sm:max-w-md"
+        title={`${user?.isActive ? "Deactivate" : "Activate"} User`}
+        open={openStatusModal}
+        setOpen={setOpenStatusModal}
+        children={
+          <StatusChangeConfirmation
+            status={user?.isActive || false}
+            subject={user?.username || ""}
+            userId={user?.id || ""}
+            onStatusChange={(id,subject)=>{ 
+                user?.isActive ? handleDectiveUser(id,subject) : handleActiveUser(id,subject);
+                setOpenStatusModal(false);
+            }}
+            onCancel={() => setOpenStatusModal(false)}
+          />
+        }
+        footer={false}
+      />
     </>
   );
 }

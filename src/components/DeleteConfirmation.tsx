@@ -35,7 +35,6 @@ export default function DeleteConfirmation({
             />
           </div>
         </div>
-        <div></div>
       </div>
     </>
   );

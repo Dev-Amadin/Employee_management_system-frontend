@@ -1,4 +1,4 @@
-import { BASE_URL } from "@/utils/appdata";
+import { BASE_URL, ROLES_OPTIONS } from "@/utils/appdata";
 import axios from "axios";
 import {
   DropdownMenu,
@@ -20,6 +20,7 @@ export function getAllusers(page: number, size: number) {
     },
   });
 }
+
 
 export function createUser(user: User) {
   return axios.post(USER_BASE_URL, user);
@@ -50,19 +51,21 @@ export interface User {
   username: string;
   password: string;
   employeeId: string;
-  employeeName: string;
+  employeeName?: string;
   role: string;
-  isActive: boolean;
+  isActive?: boolean;
 }
 
 type UserColumnsProps = {
   onEdit: (user: User) => void;
   onDelete: (user: User) => void;
+  onStatusChange: (user: User) => void;
 };
 
 export const getUserColumns = ({
   onEdit,
   onDelete,
+  onStatusChange,
 }: UserColumnsProps): ColumnDef<User>[] => [
   {
     accessorKey: "employeeName",
@@ -75,10 +78,27 @@ export const getUserColumns = ({
   {
     accessorKey: "role",
     header: "Role",
+      cell: ({ row }) => {
+          const role = row.original.role;
+          return (
+            ROLES_OPTIONS.find(
+              (r) => r.value === role,
+            )?.label ?? role
+          );
+        },
   },
-    {
+  {
     accessorKey: "isActive",
     header: "status",
+    cell: ({ row }) => {
+      const status = row.original.isActive;
+
+      return (
+        <p className={`${status ? "text-success" : "text-danger"}`}>
+          {status ? "Active" : "Inactive"}
+        </p>
+      );
+    },
   },
   {
     id: "actions",
@@ -106,7 +126,14 @@ export const getUserColumns = ({
             >
               Edit
             </DropdownMenuItem>
-
+            <DropdownMenuItem
+              className="hover:bg-purple-accent/10 cursor-pointer"
+              onClick={() => {
+                  onStatusChange(user)}
+              }
+            >
+              {user.isActive ? "Deactivate" : "Activate"}
+            </DropdownMenuItem>
             <DropdownMenuItem
               className="hover:bg-purple-accent/10 cursor-pointer text-danger"
               onClick={() => onDelete(user)}

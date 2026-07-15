@@ -21,6 +21,20 @@ export function getAllEmployees(page: number, size: number) {
   });
 }
 
+export function searchEmployees(
+  page: number,
+  size: number,
+  searchValue: string,
+) {
+  return axios.get(`${EMPLOYEE_BASE_URL}/search`, {
+    params: {
+      page: page,
+      size: size,
+      searchValue: searchValue,
+    },
+  });
+}
+
 export function createEmployee(employee: Employee) {
   return axios.post(EMPLOYEE_BASE_URL, employee);
 }

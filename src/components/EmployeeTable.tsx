@@ -125,11 +125,7 @@ export default function EmployeeTable() {
       <Modal
         size="sm:max-w-2xl"
         title={isEdit ? "Update Employee" : "Create Employee"}
-        subtitle={
-          isEdit
-            ? "Fill all the necessary fields for employee update."
-            : "Fill all the necessary fields for employee creation."
-        }
+        subtitle={`Fill all the necessary fields for employee ${isEdit? 'update.':'creation.'}`}
         open={openModal}
         setOpen={setOpenModal}
         children={

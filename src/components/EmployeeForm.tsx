@@ -33,7 +33,7 @@ function EmployeeForm({
     firstName: "",
     lastName: "",
     email: "",
-    department:""
+    department: "",
   });
 
   useEffect(() => {
@@ -41,6 +41,7 @@ function EmployeeForm({
       setFirstName(employee.firstName);
       setLastName(employee.lastName);
       setEmail(employee.email);
+      setDepartment(employee.department);
       setId(employee.id ? employee.id : "");
     }
   }, [isEdit]);
@@ -121,7 +122,7 @@ function EmployeeForm({
       isFormValid = false;
     }
 
-     if (department.trim()) {
+    if (department.trim()) {
       errorsCopy.department = "";
     } else {
       errorsCopy.department = "Department is required";
@@ -172,9 +173,8 @@ function EmployeeForm({
           label="Department"
           name="department"
           value={department}
-          onChange={(value)=> {
-            console.log("depart:: ",value)
-            setDepartment(value)
+          onChange={(value) => {
+            setDepartment(value);
           }}
           options={DEPARTMENT_OPTIONS}
           errors={errors.department}

@@ -12,6 +12,7 @@ interface InputProps {
   value: string;
   error?: string;
   state: keyof typeof InputState;
+  autocomplete?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -23,6 +24,7 @@ function Input({
   state,
   error,
   onChange,
+  autocomplete
 }: InputProps) {
   return (
     <div className="flex flex-col gap-1">
@@ -35,6 +37,7 @@ function Input({
         placeholder={`Enter ${labelName}`}
         name={name}
         value={value}
+        autoComplete={autocomplete}
         onChange={onChange}
         className={` ${InputState[state]} bg-white border py-2 px-1.5 focus-within:outline focus-within:outline-primary text-xs rounded-md`}
       />

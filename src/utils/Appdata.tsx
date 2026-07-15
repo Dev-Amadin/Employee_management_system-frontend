@@ -91,7 +91,25 @@ export const DEPARTMENT_OPTIONS = DEPARTMENTS.map((department) => ({
   value: department.value,
 }));
 
-export const ROLES = ["ADMIN", "STAFF", "MANAGER"];
+export const ROLES = [
+  {
+    name: "Admin",
+    value: "ADMIN",
+  },
+  {
+    name: "Staff",
+    value: "STAFF",
+  },
+  {
+    name: "Manager",
+    value: "MANAGER",
+  },
+];
+
+export const ROLES_OPTIONS = ROLES.map((role) => ({
+  label: role.name,
+  value: role.value,
+}));
 
 export const PAGEABLE = {
   page: 0,

@@ -4,7 +4,7 @@ type SelectOptions = {
 };
 
 type CustomSelectProps = {
-  isDisable: false;
+  isDisable?: false;
   label: string;
   name: string;
   options: SelectOptions[];
