@@ -23,9 +23,9 @@ export default function UserForm({
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [employeeId, setEmployeeId] = useState("");
-  const [employeeName, setEmployeeName] = useState("");
   const [role, setRole] = useState("");
   const [id, setId] = useState("");
+  const [query, setQuery] = useState("");
   const [openEmpSearch, setOpenEmpSearch] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -41,11 +41,25 @@ export default function UserForm({
     if (isEdit && user) {
       setUsername(user.username);
       setPassword(user.password);
+      setQuery(user.employeeName || "");
       setEmployeeId(user.employeeId);
       setRole(user.role);
-      setId(user.id ? user.id : "");
+      setId(user.id || "");
     }
   }, [isEdit]);
+
+  useEffect(() => {
+    if (query.trim().length < 3) {
+      setEmployees([]);
+    //   setUsername("");
+      return;
+    }
+    const timer = setTimeout(() => {
+      handleEmployeesSearch(query);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [query]);
 
   function saveOrUpdateUser(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -116,12 +130,12 @@ export default function UserForm({
       isFormValid = false;
     }
 
-    //   if (employeeId.trim()) {
-    //     errorsCopy.employeeId = "";
-    //   } else {
-    //     errorsCopy.employeeId = "Employee is required";
-    //     isFormValid = false;
-    //   }
+    if (employeeId.trim()) {
+      errorsCopy.employeeId = "";
+    } else {
+      errorsCopy.employeeId = "Employee is required";
+      isFormValid = false;
+    }
 
     if (role && role.trim()) {
       errorsCopy.role = "";
@@ -140,9 +154,6 @@ export default function UserForm({
   }
 
   function handleEmployeesSearch(value: string) {
-    if (!value || value.trim().length <= 2) return;
-
-    setOpenEmpSearch(true);
     setIsSearching(true);
     searchEmployees(0, 10, value)
       .then((response) => {
@@ -159,13 +170,57 @@ export default function UserForm({
 
   function handleSelectEmployee(emp: Employee) {
     setEmployeeId(emp.id || "");
-    setEmployeeName(`${emp.firstName} ${emp.lastName}`);
+    setQuery(`${emp.firstName} ${emp.lastName}`);
+    setUsername(`${emp.firstName}.${emp.lastName}`)
     setOpenEmpSearch(false);
   }
 
   return (
     <form>
       <div className="grid grid-cols-2 gap-2 my-4">
+         <div className="flex flex-col gap-1">
+          <label htmlFor="employee">Employee</label>
+          <input
+            type="text"
+            name="employee"
+            className="bg-white border py-2 px-1.5 focus-within:outline focus-within:outline-primary text-xs rounded-md"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+            autoComplete="off"
+            placeholder="Type in employee"
+            onFocus={() => setOpenEmpSearch(true)}
+            onBlur={() => {
+              setOpenEmpSearch(false);
+              setEmployees([]);
+            }}
+          />
+          {errors.employeeId && <p className="text-danger text-xs">{errors.employeeId}</p>}
+          {openEmpSearch && (
+            <div className="rounded-md shadow-md p-2">
+              {isSearching ? (
+                <div className="p-3">Searching...</div>
+              ) : employees.length === 0 ? (
+                <div className="p-3">No Employee found.</div>
+              ) : (
+                employees.map((emp) => (
+                  <ul
+                    key={emp.id}
+                    className="p-2 hover:bg-purple-accent/10 hover:cursor-pointer mb-1 text-xs rounded-md"
+                    onMouseDown={() => {
+                      handleSelectEmployee(emp);
+                    }}
+                  >
+                    <a>
+                      {emp.firstName} {emp.lastName}
+                    </a>
+                  </ul>
+                ))
+              )}
+            </div>
+          )}
+        </div>
         <Input
           type="text"
           name="username"
@@ -185,44 +240,7 @@ export default function UserForm({
           onChange={(event) => setPassword(event.target.value)}
         />
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="employee">
-            Employee
-            {employeeName && <span className="font-semibold text-primary">: {employeeName}</span>}
-          </label>
-          <input
-            type="text"
-            name="employee"
-            className="bg-white border py-2 px-1.5 focus-within:outline focus-within:outline-primary text-xs rounded-md"
-            onChange={(e) => {
-              handleEmployeesSearch(e.target.value);
-            }}
-            autoComplete="off"
-            placeholder="Type in employee"
-          />
-          {openEmpSearch &&
-            (employees.length ? (
-              <div className="rounded-md shadow-md p-2 z-50">
-                {employees.map((emp) => (
-                  <ul className="p-2 hover:bg-purple-accent/10 hover:cursor-pointer mb-1 text-xs rounded-md">
-                    <a
-                      onClick={() => {
-                        handleSelectEmployee(emp);
-                      }}
-                    >
-                      {emp.firstName} {emp.lastName}
-                    </a>
-                  </ul>
-                ))}
-              </div>
-            ) : (
-              <>
-                <div className="flex justify-center items-center p-2">
-                  <p>No employees match found</p>
-                </div>
-              </>
-            ))}
-        </div>
+       
 
         <CustomSelect
           label="Role"
