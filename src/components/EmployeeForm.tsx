@@ -2,6 +2,7 @@ import Button from "./Btn";
 import React, { useEffect, useState } from "react";
 import {
   createEmployee,
+  searchEmployees,
   updateEmployee,
   type Employee,
 } from "../services/EmployeeService";
@@ -29,6 +30,12 @@ function EmployeeForm({
   const [department, setDepartment] = useState("");
   const [id, setId] = useState("");
 
+  const [managerId, setManagerId] = useState("");
+  const [query, setQuery] = useState("");
+  const [openManagerSearch, setOpenManagerSearch] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [managers, setManagers] = useState<Employee[]>([]);
+
   const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
@@ -42,15 +49,28 @@ function EmployeeForm({
       setLastName(employee.lastName);
       setEmail(employee.email);
       setDepartment(employee.department);
+      setQuery(employee.managerName || "");
       setId(employee.id ? employee.id : "");
     }
   }, [isEdit]);
+
+  useEffect(() => {
+    if (query.trim().length < 3) {
+      setManagers([]);
+      return;
+    }
+    const timer = setTimeout(() => {
+      handleManagerSearch(query);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [query]);
 
   function saveOrUpdateEmployee(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
 
     if (validateForm()) {
-      const data = { firstName, lastName, email, department };
+      const data = { firstName, lastName, email, department, managerId };
       console.log("data::: ", data);
 
       if (isEdit) {
@@ -138,6 +158,26 @@ function EmployeeForm({
     onCloseModal();
   }
 
+  function handleManagerSearch(value: string) {
+    setIsSearching(true);
+    searchEmployees(0, 10, value)
+      .then((response) => {
+        console.log("SEARCH_EMPS:: ", response);
+        setManagers(response.data.content);
+        setIsSearching(false);
+      })
+      .catch((error) => {
+        console.log("ERROR:: ", error);
+        setIsSearching(false);
+      });
+  }
+
+  function handleSelectManager(manager: Employee) {
+    setManagerId(manager.id || "");
+    setQuery(`${manager.firstName} ${manager.lastName}`);
+    setOpenManagerSearch(false);
+  }
+
   return (
     <form>
       <div className="grid grid-cols-2 gap-2 my-4">
@@ -179,6 +219,48 @@ function EmployeeForm({
           options={DEPARTMENT_OPTIONS}
           errors={errors.department}
         />
+        <div className="flex flex-col gap-1 relative">
+          <label htmlFor="manger">Manager</label>
+          <input
+            type="text"
+            name="manger"
+            className="bg-white border py-2 px-1.5 focus-within:outline focus-within:outline-primary text-xs rounded-md"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+            autoComplete="off"
+            placeholder="Type in employee"
+            onFocus={() => setOpenManagerSearch(true)}
+            onBlur={() => {
+              setOpenManagerSearch(false);
+              setManagers([]);
+            }}
+          />
+          {openManagerSearch && (
+            <div className="rounded-md shadow-md p-2 absolute mt-1 right-0 left-0 top-full bg-white">
+              {isSearching ? (
+                <div className="p-3 text-center">Searching...</div>
+              ) : managers.length === 0 ? (
+                <div className="p-3 text-center">No Employee found.</div>
+              ) : (
+                managers.map((emp) => (
+                  <ul
+                    key={emp.id}
+                    className="p-2 hover:bg-purple-accent/10 hover:cursor-pointer mb-1 text-xs rounded-md"
+                    onMouseDown={() => {
+                      handleSelectManager(emp);
+                    }}
+                  >
+                    <a>
+                      {emp.firstName} {emp.lastName}
+                    </a>
+                  </ul>
+                ))
+              )}
+            </div>
+          )}
+        </div>
       </div>
       <div className="flex flex-row-reverse mt-6 border-t p-2">
         <div className="flex gap-2 mt-2">

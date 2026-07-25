@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Input from "./Input";
 import CustomSelect from "./CustomSelect";
 import Btn from "./Btn";
-import { DEPARTMENT_OPTIONS, ROLES_OPTIONS } from "@/utils/appdata";
+import { ROLES_OPTIONS } from "@/utils/appdata";
 import { createUser, updateUser, type User } from "@/services/UserService";
 import { toaster } from "@/utils/commons";
 import { searchEmployees, type Employee } from "@/services/EmployeeService";
@@ -51,7 +51,6 @@ export default function UserForm({
   useEffect(() => {
     if (query.trim().length < 3) {
       setEmployees([]);
-    //   setUsername("");
       return;
     }
     const timer = setTimeout(() => {
@@ -159,7 +158,6 @@ export default function UserForm({
       .then((response) => {
         console.log("SEARCH_EMPS:: ", response);
         setEmployees(response.data.content);
-        // setTotalElements(response.data.page.totalElements);
         setIsSearching(false);
       })
       .catch((error) => {
@@ -171,14 +169,14 @@ export default function UserForm({
   function handleSelectEmployee(emp: Employee) {
     setEmployeeId(emp.id || "");
     setQuery(`${emp.firstName} ${emp.lastName}`);
-    setUsername(`${emp.firstName}.${emp.lastName}`)
+    setUsername(`${emp.firstName}.${emp.lastName}`);
     setOpenEmpSearch(false);
   }
 
   return (
     <form>
-      <div className="grid grid-cols-2 gap-2 my-4">
-         <div className="flex flex-col gap-1">
+      <div className="grid grid-cols-2 gap-2 my-4 ">
+        <div className="flex flex-col gap-1 relative">
           <label htmlFor="employee">Employee</label>
           <input
             type="text"
@@ -187,6 +185,9 @@ export default function UserForm({
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
+              if (!e.target.value) {
+                setUsername("");
+              }
             }}
             autoComplete="off"
             placeholder="Type in employee"
@@ -196,13 +197,15 @@ export default function UserForm({
               setEmployees([]);
             }}
           />
-          {errors.employeeId && <p className="text-danger text-xs">{errors.employeeId}</p>}
+          {errors.employeeId && (
+            <p className="text-danger text-xs">{errors.employeeId}</p>
+          )}
           {openEmpSearch && (
-            <div className="rounded-md shadow-md p-2">
+            <div className="rounded-md shadow-md p-2 absolute mt-1 right-0 left-0 top-full bg-white">
               {isSearching ? (
-                <div className="p-3">Searching...</div>
+                <div className="p-3 text-center">Searching...</div>
               ) : employees.length === 0 ? (
-                <div className="p-3">No Employee found.</div>
+                <div className="p-3 text-center">No Employee found.</div>
               ) : (
                 employees.map((emp) => (
                   <ul
@@ -239,8 +242,6 @@ export default function UserForm({
           error={errors.password}
           onChange={(event) => setPassword(event.target.value)}
         />
-
-       
 
         <CustomSelect
           label="Role"

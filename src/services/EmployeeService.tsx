@@ -56,6 +56,8 @@ export interface Employee {
   firstName: string;
   lastName: string;
   email: string;
+  managerId?: string;
+  managerName?: string;
   department: string;
 }
 
