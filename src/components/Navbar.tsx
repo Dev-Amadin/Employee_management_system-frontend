@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useThemeContext } from "../context/ThemeContextProvider";
 import { BellIcon, ExitLeftIcon, HamburgerIcon } from "../utils/icons";
 import { toast } from "sonner";
+import { logout } from "@/services/AuthService";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ function Navbar() {
       description: "You have successfully Logged out.",
       position: "top-right",
     });
+    logout();
     navigate("/");
   }
 

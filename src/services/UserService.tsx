@@ -1,5 +1,4 @@
-import { BASE_URL, ROLES_OPTIONS } from "@/utils/appdata";
-import axios from "axios";
+import { ROLES_OPTIONS } from "@/utils/appdata";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,11 +8,12 @@ import {
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontalIcon } from "@/utils/icons";
+import { authFetch } from "./AuthService";
 
-const USER_BASE_URL = `${BASE_URL}/users`;
+const USER_BASE_URL = `/users`;
 
 export function getAllusers(page: number, size: number) {
-  return axios.get(USER_BASE_URL, {
+  return authFetch.get(USER_BASE_URL, {
     params: {
       page: page,
       size: size,
@@ -23,27 +23,27 @@ export function getAllusers(page: number, size: number) {
 
 
 export function createUser(user: User) {
-  return axios.post(USER_BASE_URL, user);
+  return authFetch.post(USER_BASE_URL, user);
 }
 
 export function getUserById(id: string) {
-  return axios.get<User>(`${USER_BASE_URL}/${id}`);
+  return authFetch.get<User>(`${USER_BASE_URL}/${id}`);
 }
 
 export function updateUser(userId: string, user: User) {
-  return axios.patch<User>(`${USER_BASE_URL}/${userId}`, user);
+  return authFetch.patch<User>(`${USER_BASE_URL}/${userId}`, user);
 }
 
 export function activateUser(userId: string) {
-  return axios.patch<User>(`${USER_BASE_URL}/activate/${userId}`);
+  return authFetch.patch<User>(`${USER_BASE_URL}/activate/${userId}`);
 }
 
 export function deactivateUser(userId: string) {
-  return axios.patch<User>(`${USER_BASE_URL}/deactivate/${userId}`);
+  return authFetch.patch<User>(`${USER_BASE_URL}/deactivate/${userId}`);
 }
 
 export function deleteUserById(id: string) {
-  return axios.delete(`${USER_BASE_URL}/${id}`);
+  return authFetch.delete(`${USER_BASE_URL}/${id}`);
 }
 
 export interface User {

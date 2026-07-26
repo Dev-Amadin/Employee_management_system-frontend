@@ -1,5 +1,4 @@
-import { BASE_URL, DEPARTMENT_OPTIONS } from "@/utils/appdata";
-import axios from "axios";
+import { DEPARTMENT_OPTIONS } from "@/utils/appdata";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,11 +8,12 @@ import {
 import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontalIcon } from "@/utils/icons";
+import { authFetch } from "./AuthService";
 
-const EMPLOYEE_BASE_URL = `${BASE_URL}/employee`;
+const EMPLOYEE_BASE_URL = `/employee`;
 
 export function getAllEmployees(page: number, size: number) {
-  return axios.get(EMPLOYEE_BASE_URL, {
+  return authFetch.get(EMPLOYEE_BASE_URL, {
     params: {
       page: page,
       size: size,
@@ -26,7 +26,7 @@ export function searchEmployees(
   size: number,
   searchValue: string,
 ) {
-  return axios.get(`${EMPLOYEE_BASE_URL}/search`, {
+  return authFetch.get(`${EMPLOYEE_BASE_URL}/search`, {
     params: {
       page: page,
       size: size,
@@ -36,19 +36,19 @@ export function searchEmployees(
 }
 
 export function createEmployee(employee: Employee) {
-  return axios.post(EMPLOYEE_BASE_URL, employee);
+  return authFetch.post(EMPLOYEE_BASE_URL, employee);
 }
 
 export function getEmployeeById(id: string) {
-  return axios.get<Employee>(`${EMPLOYEE_BASE_URL}/${id}`);
+  return authFetch.get<Employee>(`${EMPLOYEE_BASE_URL}/${id}`);
 }
 
 export function updateEmployee(employeeId: string, employee: Employee) {
-  return axios.patch<Employee>(`${EMPLOYEE_BASE_URL}/${employeeId}`, employee);
+  return authFetch.patch<Employee>(`${EMPLOYEE_BASE_URL}/${employeeId}`, employee);
 }
 
 export function deleteEmployeeById(id: string) {
-  return axios.delete(`${EMPLOYEE_BASE_URL}/${id}`);
+  return authFetch.delete(`${EMPLOYEE_BASE_URL}/${id}`);
 }
 
 export interface Employee {

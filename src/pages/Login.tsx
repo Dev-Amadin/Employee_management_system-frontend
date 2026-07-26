@@ -1,14 +1,12 @@
-import { useNavigate } from "react-router-dom";
 import loginImg from "../assets/login_svg.svg";
 import Button from "../components/Btn";
 import Input from "../components/Input";
 import { useState } from "react";
-import { toast } from "sonner";
+import { authenticatedLogin } from "@/services/AuthService";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({
     username: "",
@@ -16,14 +14,9 @@ function Login() {
   });
 
   function signIn() {
-    console.log("SIGIN_DETAILS:: ", username, " / ", password);
-    // if (validateForm()) {
-    toast("Signed In", {
-      description: "You have successfully signed in.",
-      position: "top-right",
-    });
-      navigate("/employees");
-    // }
+    if (validateForm()) {
+      authenticatedLogin(username, password);
+    }
   }
 
   function validateForm() {
