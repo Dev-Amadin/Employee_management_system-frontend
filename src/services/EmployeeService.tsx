@@ -35,6 +35,20 @@ export function searchEmployees(
   });
 }
 
+export function getEmployeesWithSpecification(
+  page: number,
+  size: number,
+  searchValue: string,
+) {
+  return authFetch.get(`${EMPLOYEE_BASE_URL}/v2`, {
+    params: {
+      page: page,
+      size: size,
+      searchValue: searchValue,
+    },
+  });
+}
+
 export function createEmployee(employee: Employee) {
   return authFetch.post(EMPLOYEE_BASE_URL, employee);
 }

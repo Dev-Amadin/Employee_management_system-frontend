@@ -36,26 +36,26 @@ authFetch.interceptors.request.use(
 
     return request;
   },
-    (error) => Promise.reject(error),
-//   (error: AxiosError) => {
-//     if (error.response) {
-//       // The request was made and the server responded with a status code
-//       // that falls out of the range of 2xx
-//       console.log(error.response.data);
-//       console.log(error.response.status);
-//       console.log(error.response.headers);
-//     } else if (error.request) {
-//       // The request was made but no response was received
-//       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-//       // http.ClientRequest in node.js
-//       console.log(error.request);
-//     } else {
-//       // Something happened in setting up the request that triggered an Error
-//       console.log("Error", error.message);
-//     }
-//     console.log(error);
-//     toaster(false, "Error Occured", `${error}`);
-//   },
+  (error) => Promise.reject(error),
+  //   (error: AxiosError) => {
+  //     if (error.response) {
+  //       // The request was made and the server responded with a status code
+  //       // that falls out of the range of 2xx
+  //       console.log(error.response.data);
+  //       console.log(error.response.status);
+  //       console.log(error.response.headers);
+  //     } else if (error.request) {
+  //       // The request was made but no response was received
+  //       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+  //       // http.ClientRequest in node.js
+  //       console.log(error.request);
+  //     } else {
+  //       // Something happened in setting up the request that triggered an Error
+  //       console.log("Error", error.message);
+  //     }
+  //     console.log(error);
+  //     toaster(false, "Error Occured", `${error}`);
+  //   },
 );
 
 authFetch.interceptors.response.use(
@@ -64,13 +64,22 @@ authFetch.interceptors.response.use(
   },
   (error: AxiosError) => {
     console.log("AUTH_RES_ERROR: ", error.response);
+
+    if (error.code && error.code == "ERR_NETWORK") {
+      toaster(false, error.message, "Check connectivity; Server may be down");
+    }
     if (error.response) {
-      const responseData = error.response.data as { message?: string };
-      toaster(
-        false,
-        "Error Occured",
-        responseData?.message || error.message || "Unknown error",
-      );
+      if (error.response.status == 403) {
+        logout();
+        toaster(false, "Token expired", "Please re-login.");
+      } else {
+        const responseData = error.response.data as { message?: string };
+        toaster(
+          false,
+          "Error Occured",
+          responseData?.message || error.message || "Unknown error",
+        );
+      }
     }
   },
 );
@@ -84,5 +93,6 @@ function getToken() {
 }
 
 export function logout() {
+  window.location.href = "/";
   localStorage.clear();
 }

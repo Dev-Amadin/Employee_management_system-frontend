@@ -2,7 +2,7 @@ import Button from "./Btn";
 import React, { useEffect, useState } from "react";
 import {
   createEmployee,
-  searchEmployees,
+  getEmployeesWithSpecification,
   updateEmployee,
   type Employee,
 } from "../services/EmployeeService";
@@ -160,7 +160,7 @@ function EmployeeForm({
 
   function handleManagerSearch(value: string) {
     setIsSearching(true);
-    searchEmployees(0, 10, value)
+    getEmployeesWithSpecification(0, 10, value)
       .then((response) => {
         console.log("SEARCH_EMPS:: ", response);
         setManagers(response.data.content);
