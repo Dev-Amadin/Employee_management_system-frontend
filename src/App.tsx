@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <Toaster />
-      <BrowserRouter>
+      <BrowserRouter basename="/Employee_management_system-frontend">
         <Routes>
           {/* {Public} */}
           <Route>
