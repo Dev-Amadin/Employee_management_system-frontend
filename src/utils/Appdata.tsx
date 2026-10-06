@@ -116,7 +116,7 @@ export const PAGEABLE = {
   size: 5,
 };
 
-export const BASE_URL = import.meta.env.VITE_SEVER_URL;
+export const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
 export type Page = {
   size: number;
