@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 
 import Login from "./pages/Login";
@@ -11,7 +11,8 @@ function App() {
   return (
     <>
       <Toaster />
-      <BrowserRouter>
+      <HashRouter>
+        {/* <BrowserRouter> */}
         <Routes>
           {/* {Public} */}
           <Route>
@@ -24,7 +25,8 @@ function App() {
             <Route path="/users" element={<Users />}></Route>
           </Route>
         </Routes>
-      </BrowserRouter>
+        {/* </BrowserRouter> */}
+      </HashRouter>
     </>
   );
 }
