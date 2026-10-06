@@ -116,7 +116,7 @@ export const PAGEABLE = {
   size: 5,
 };
 
-export const BASE_URL = "http://localhost:8080/api/dev/ems";
+export const BASE_URL = import.meta.env.VITE_SEVER_URL;
 
 export type Page = {
   size: number;

@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import EmployeeTable from "./components/EmployeeTable";
 import { Toaster } from "./components/ui/sonner";
-import Users from "./components/users";
+import Users from "./components/Users";
 
 function App() {
   return (

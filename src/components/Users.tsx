@@ -17,7 +17,7 @@ import { toaster } from "@/utils/commons";
 import Modal from "./Modal";
 import DeleteConfirmation from "./DeleteConfirmation";
 import UserForm from "./UserForm";
-import StatusChangeConfirmation from "./statusChangeConfirmation";
+import StatusChangeConfirmation from "./StatusChangeConfirmation";
 
 export default function Users() {
   const [users, setUsers] = useState<User[]>([]);
