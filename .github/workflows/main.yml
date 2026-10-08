@@ -36,8 +36,8 @@ jobs:
       - name: Deploy to Netlify
         run: npx netlify-cli deploy --prod --dir=dist
         env:
-          NETLIFY_EMS_AUTH_TOKEN: ${{ secrets.NETLIFY_EMS_AUTH_TOKEN }}
-          NETLIFY_EMS_SITE_ID: ${{ secrets.NETLIFY_EMS_SITE_ID }}    
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_EMS_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_EMS_SITE_ID }}    
 
       # - name: Setup GitHub Pages
       #   uses: actions/configure-pages@v5
