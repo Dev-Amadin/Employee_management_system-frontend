@@ -1,14 +1,15 @@
-name: Build and deploy to GitHub Pages
+name: Build and deploy to Netlify
 
 on:
   push:
     branches:
       - main
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+# this permissions were for gitHub pages
+# permissions:
+#   contents: read
+#   pages: write
+#   id-token: write
 
 jobs:
   deploy:
