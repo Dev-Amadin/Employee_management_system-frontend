@@ -11,7 +11,8 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: "/Employee_management_system-frontend/",
+  // base: "/Employee_management_system-frontend/",
+    base: "/",
   // server: {
   //   hmr: true,
   //   watch: { usePolling: true }
