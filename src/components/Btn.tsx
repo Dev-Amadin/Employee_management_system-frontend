@@ -1,3 +1,4 @@
+import { SpinnerIcon } from "@/utils/icons";
 import type React from "react";
 
 const ButtonType = {
@@ -13,19 +14,34 @@ interface ButtonProps {
   text: string;
   childern?: React.ReactNode;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  isDisabled?: boolean;
+  isLoading?: boolean;
 }
 
-export default function Btn({ type, text, childern, onClick }: ButtonProps) {
+export default function Btn({
+  type,
+  text,
+  childern,
+  onClick,
+  isDisabled,
+  isLoading,
+}: ButtonProps) {
   return (
     <button
       className={`${ButtonType[type]} flex justify-center w-full text-sm 
-  items-center rounded-4xl py-2 px-10  cursor-pointer transition-colors duration-300 `}
+  items-center rounded-4xl py-2 px-10  cursor-pointer transition-colors duration-300
+  ${isDisabled ? "opacity-75" : ""}
+   `}
       onClick={onClick}
+      disabled={isDisabled}
     >
       <span>{childern}</span>
       {text}
+      {isLoading && (
+      <span className="ml-3">
+        <SpinnerIcon />
+      </span>
+      )}
     </button>
   );
 }
-
-

@@ -2,11 +2,16 @@ import loginImg from "../assets/login_svg.svg";
 import Button from "../components/Btn";
 import Input from "../components/Input";
 import { useState } from "react";
-import { authenticatedLogin } from "@/services/AuthService";
+import { authenticatedLogin, setToken } from "@/services/AuthService";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [errors, setErrors] = useState({
     username: "",
@@ -15,7 +20,19 @@ function Login() {
 
   function signIn() {
     if (validateForm()) {
-      authenticatedLogin(username, password);
+      setIsLoading(true);
+      authenticatedLogin(username, password)
+        .then((response) => {
+          setToken(response.data);
+          toast("Signed In", {
+            description: "You have successfully signed in.",
+            position: "top-right",
+          });
+          setIsLoading(false);
+          // window.location.href = "/employees";
+          navigate("/employees");
+        })
+        .catch(() => setIsLoading(false));
     }
   }
 
@@ -82,7 +99,13 @@ function Login() {
               error={errors.password}
             />
             <div className="mt-4">
-              <Button type="primary" text="Sign in" onClick={signIn}></Button>
+              <Button
+                type="primary"
+                text="Sign in"
+                onClick={signIn}
+                isLoading={isLoading}
+                isDisabled={isLoading}
+              ></Button>
             </div>
           </div>
         </div>
