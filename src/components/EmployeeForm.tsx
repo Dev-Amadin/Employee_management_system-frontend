@@ -35,6 +35,7 @@ function EmployeeForm({
   const [openManagerSearch, setOpenManagerSearch] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [managers, setManagers] = useState<Employee[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [errors, setErrors] = useState({
     firstName: "",
@@ -74,8 +75,10 @@ function EmployeeForm({
       console.log("data::: ", data);
 
       if (isEdit) {
+        setIsLoading(true);
         updateEmployee(id, data)
           .then(() => {
+            setIsLoading(false);
             onCloseModal();
             toaster(
               true,
@@ -86,6 +89,7 @@ function EmployeeForm({
             onSuccess();
           })
           .catch((error) => {
+            setIsLoading(false);
             console.log("UPDATE EMPLOYEE ERROR:: ", error);
             toaster(
               false,
@@ -94,8 +98,10 @@ function EmployeeForm({
             );
           });
       } else {
+        setIsLoading(true);
         createEmployee(data)
           .then(() => {
+            setIsLoading(false);
             onCloseModal();
             toaster(
               true,
@@ -105,6 +111,7 @@ function EmployeeForm({
             onSuccess();
           })
           .catch((error) => {
+            setIsLoading(false);
             console.log("CREATE EMPLOYEE ERROR:: ", error);
             toaster(
               false,
@@ -265,7 +272,13 @@ function EmployeeForm({
       <div className="flex flex-row-reverse mt-6 border-t p-2">
         <div className="flex gap-2 mt-2">
           <Button type="secondary" text="Cancel" onClick={cancel} />
-          <Button type="success" text="Submit" onClick={saveOrUpdateEmployee} />
+          <Button
+            type="success"
+            text="Submit"
+            onClick={saveOrUpdateEmployee}
+            isLoading={isLoading}
+            isDisabled={isLoading}
+          />
         </div>
       </div>
     </form>

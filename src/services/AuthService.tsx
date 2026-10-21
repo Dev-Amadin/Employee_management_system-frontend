@@ -1,23 +1,15 @@
 import { BASE_URL } from "@/utils/appdata";
 import { toaster } from "@/utils/commons";
 import axios, { AxiosError } from "axios";
-import { toast } from "sonner";
+
 
 const AUTH_BASE_URL = `${BASE_URL}/auth`;
 
 export function authenticatedLogin(username: string, password: string) {
-  authFetch
+  return authFetch
     .post(`${AUTH_BASE_URL}/login`, {
       username: username,
       password: password,
-    })
-    .then((response) => {
-      setToken(response.data);
-      toast("Signed In", {
-        description: "You have successfully signed in.",
-        position: "top-right",
-      });
-      window.location.href = "/employees";
     });
 }
 
@@ -84,7 +76,7 @@ authFetch.interceptors.response.use(
   },
 );
 
-function setToken(token: string) {
+export function setToken(token: string) {
   localStorage.setItem("token", token);
 }
 

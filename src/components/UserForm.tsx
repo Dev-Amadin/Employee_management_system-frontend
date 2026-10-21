@@ -29,6 +29,7 @@ export default function UserForm({
   const [openEmpSearch, setOpenEmpSearch] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [employees, setEmployees] = useState<Employee[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [errors, setErrors] = useState({
     username: "",
@@ -68,8 +69,10 @@ export default function UserForm({
       console.log("data::: ", data);
 
       if (isEdit) {
+        setIsLoading(true);
         updateUser(id, data)
           .then(() => {
+            setIsLoading(false);
             onCloseModal();
             toaster(
               true,
@@ -80,6 +83,7 @@ export default function UserForm({
             onSuccess();
           })
           .catch((error) => {
+            setIsLoading(false);
             console.log("UPDATE EMPLOYEE ERROR:: ", error);
             toaster(
               false,
@@ -88,8 +92,10 @@ export default function UserForm({
             );
           });
       } else {
+        setIsLoading(true);
         createUser(data)
           .then(() => {
+            setIsLoading(false);
             onCloseModal();
             toaster(
               true,
@@ -100,6 +106,7 @@ export default function UserForm({
           })
           .catch((error) => {
             console.log("CREATE EMPLOYEE ERROR:: ", error.message);
+            setIsLoading(false);
             toaster(
               false,
               "Error Occured",
@@ -257,7 +264,13 @@ export default function UserForm({
       <div className="flex flex-row-reverse mt-6 border-t p-2">
         <div className="flex gap-2 mt-2">
           <Btn type="secondary" text="Cancel" onClick={cancel} />
-          <Btn type="success" text="Submit" onClick={saveOrUpdateUser} />
+          <Btn
+            type="success"
+            text="Submit"
+            onClick={saveOrUpdateUser}
+            isLoading={isLoading}
+            isDisabled={isLoading}
+          />
         </div>
       </div>
     </form>
