@@ -6,12 +6,13 @@ import Home from "./pages/Home";
 import EmployeeTable from "./components/EmployeeTable";
 import { Toaster } from "./components/ui/sonner";
 import Users from "./components/Users";
+import LeaveRequest from "./components/LeaveRequest";
 
 function App() {
   return (
     <>
       <Toaster />
-       <BrowserRouter>
+      <BrowserRouter>
         <Routes>
           {/* {Public} */}
           <Route>
@@ -22,6 +23,7 @@ function App() {
           <Route element={<Home />}>
             <Route path="/employees" element={<EmployeeTable />}></Route>
             <Route path="/users" element={<Users />}></Route>
+            <Route path="/leave-request" element={<LeaveRequest />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
