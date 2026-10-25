@@ -3,8 +3,12 @@ import {
   AnalyticIcon,
   ApprovalIcon,
   CalendarIcon,
+  CheckIcon,
+  ClockIcon,
   GroupIcon,
   HomeIcon,
+  HourglassIcon,
+  RejectIcon,
   RequestIcon,
   VibratingBellIcon,
 } from "./icons";
@@ -124,3 +128,30 @@ export type Page = {
   totalElements?: number;
   totalPages?: number;
 };
+
+export const LEAVE_REQUEST_SUMMARY = [
+  {
+    icon: <ClockIcon/>,
+    iconColour: "text-warning bg-warning/10",
+    header: "Pending Requests",
+    subheader: "awaiting approval",
+  },
+ {
+    icon: <RejectIcon/>,
+    iconColour: "text-danger bg-danger/10",
+    header: "Rejected Requests",
+    subheader: "requests declined",
+  },
+ {
+    icon: <CheckIcon/>,
+    iconColour: "text-success bg-success/10",
+    header: "Approved Requests",
+    subheader: "successfully approved",
+  },
+ {
+    icon: <HourglassIcon/>,
+    iconColour: "text-primary bg-primary/10",
+    header: "Requests Left",
+    subheader: "days left available",
+  },
+];

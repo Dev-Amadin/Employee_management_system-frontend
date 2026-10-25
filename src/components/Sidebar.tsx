@@ -19,7 +19,7 @@ function Sidebar() {
           <div className="bg-purple-accent/10 text-xs flex items-center justify-center rounded-full p-2">
             <img src={logo} className="h-6 w-6" />
           </div>
-          <h1 className="text-xl font-semibold uppercase">Brand</h1>
+          <h1 className="text-xl font-semibold uppercase">EMS</h1>
         </div>
         <div
           className="rounded-full cursor-pointer hover:bg-purple-accent/10 transition-colors duration-300 p-2"

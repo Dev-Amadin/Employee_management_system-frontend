@@ -64,7 +64,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="overflow-hidden shadow-xl p-4 rounded-md bg-light my-auto">
+    <div className="overflow-hidden shadow-xl shadow-primary-light p-4 rounded-md bg-light my-auto">
       {isLoading ? (
         <>
           <SkeletonTable cols={columns.length} />
