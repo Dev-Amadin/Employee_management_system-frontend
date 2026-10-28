@@ -115,6 +115,30 @@ export const ROLES_OPTIONS = ROLES.map((role) => ({
   value: role.value,
 }));
 
+export const LEAVE_TYPES = [
+  {
+    name: "Annual Leave",
+    value: "ANNUAL_LEAVE",
+  },
+  {
+    name: "Sick Leave",
+    value: "SICK_LEAVE",
+  },
+  {
+    name: "Parental Leave",
+    value: "PARENTAL_LEAVE",
+  },
+   {
+    name: "Compassionate Leave",
+    value: "COMPASSIONATE_LEAVE",
+  },
+];
+
+export const LEAVE_TYPE_OPTIONS = LEAVE_TYPES.map((type) => ({
+  label: type.name,
+  value: type.value
+}))
+
 export const PAGEABLE = {
   page: 0,
   size: 5,

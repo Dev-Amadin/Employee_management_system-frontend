@@ -8,6 +8,8 @@ import Subnav from "./Subnav";
 import { DataTable } from "./DataTable";
 import type { PaginationState } from "@tanstack/react-table";
 import { getLeaveRequestCols } from "@/services/RequestService";
+import Modal from "./Modal";
+import RequestForm from "./RequestForm";
 
 export default function LeaveRequest() {
   const STATUS_DATA = ["All", "Pending", "Approved", "Rejected"];
@@ -19,8 +21,15 @@ export default function LeaveRequest() {
   });
   const [totalElements, setTotalElements] = useState(0);
   const [leaveRequests, setLeaveRequests] = useState([]);
+  const [isEdit, setIsEdit] = useState(false);
+  const [openAddModal, setOpenAddModal] = useState(false);
 
   const columns = getLeaveRequestCols();
+
+  function handleAdd() {
+    setIsEdit(false);
+    setOpenAddModal(true);
+  }
 
   return (
     <>
@@ -28,7 +37,15 @@ export default function LeaveRequest() {
         title="Leave Request"
         subheading="Details of Employee leave"
         className="mb-6"
-        button={<Btn text="New Request" type="primary" onClick={() => {}} />}
+        button={
+          <Btn
+            text="New Request"
+            type="primary"
+            onClick={() => {
+              handleAdd();
+            }}
+          />
+        }
         icon={<RequestIcon size="size-6" />}
       />
 
@@ -58,6 +75,23 @@ export default function LeaveRequest() {
         pagination={pagination}
         totalElements={totalElements}
         onPaginationChange={setPagination}
+      />
+
+      <Modal
+        size="sm:max-w-2xl"
+        title={isEdit ? "Update Leave Request" : "New Leave Request"}
+        subtitle={`Fill all the necessary fields for request ${isEdit ? "update." : "creation."}`}
+        open={openAddModal}
+        setOpen={setOpenAddModal}
+        children={
+          <RequestForm
+            onCloseModal={() => {
+              setOpenAddModal(false);
+            }}
+            onSuccess={() => {}}
+          />
+        }
+        footer={false}
       />
     </>
   );

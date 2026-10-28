@@ -20,7 +20,7 @@ export default function Subnav({
              ${link == currentLink ? "border-b-2 border-primary" : ""}`}
           onClick={() => onClick(link)}
         >
-          <p className="text-xs text-pretty text-slate-700 p-4">{link}</p>
+          <p className={`text-xs text-pretty  p-4 ${link == currentLink ? "text-primary font-semibold" : "text-slate-700"}`}>{link}</p>
         </div>
       ))}
     </div>
